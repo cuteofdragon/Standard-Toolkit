@@ -9,12 +9,16 @@
             $(Description)
             This package supports only .NET Framework >= 4.5 and .NET Core 3.1.
             If you require .NET 4.0 support or want to use library fully build against your specific framework version use non-lite package.
+			Please be aware that this is a 'long term support' (LTS) package. This means that it will contain the older 'ComponentFactory.Krypton.*' namespaces,
+			but will **not** support any frameworks beyond .NET Core 3.1. If you desire to go beyond .NET Core 3.1, then please use the 'Krypton.*' packages.
         </Description>
         <Description Condition="'$(TFMs)' == 'all'">
             $(Description)
             This package supports all .NET Framework versions starting .NET 3.5 and .NET Core 3.1.
             Also, all libraries are included targeting each specific framework version for performance purposes.
             If you target only .NET Framework >= 4.5 and are not interested in specific framework version, consider using the lite package.
+			Please be aware that this is a 'long term support' (LTS) package. This means that it will contain the older 'ComponentFactory.Krypton.*' namespaces,
+			but will **not** support any frameworks beyond .NET Core 3.1. If you desire to go beyond .NET Core 3.1, then please use the 'Krypton.*' packages.
         </Description>
     </PropertyGroup>
 </Project>
