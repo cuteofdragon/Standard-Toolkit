@@ -4,7 +4,7 @@
     -->
 
     <PropertyGroup>
-        <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Lite</PackageId>
+        <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).LTS.Lite</PackageId>
         <Description Condition="'$(TFMs)' == 'lite'">
             $(Description)
             This package supports only .NET Framework >= 4.5 and .NET Core 3.1.
