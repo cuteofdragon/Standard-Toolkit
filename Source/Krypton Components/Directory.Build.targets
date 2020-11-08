@@ -4,7 +4,7 @@
     -->
 
     <PropertyGroup>
-        <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).LTS.Lite</PackageId>
+        <PackageId Condition="'$(TFMs)' == 'lite'">$(PackageId).Lite.LTS</PackageId>
         <Description Condition="'$(TFMs)' == 'lite'">
             $(Description)
             This package supports only .NET Framework >= 4.5 and .NET Core 3.1.
@@ -12,6 +12,7 @@
 			Please be aware that this is a 'long term support' (LTS) package. This means that it will contain the older 'ComponentFactory.Krypton.*' namespaces,
 			but will **not** support any frameworks beyond .NET Core 3.1. If you desire to go beyond .NET Core 3.1, then please use the 'Krypton.*' packages.
         </Description>
+		<PackageId Condition="'$(TFMs)' == 'all'">$(PackageId).LTS</PackageId>
         <Description Condition="'$(TFMs)' == 'all'">
             $(Description)
             This package supports all .NET Framework versions starting .NET 3.5 and .NET Core 3.1.
