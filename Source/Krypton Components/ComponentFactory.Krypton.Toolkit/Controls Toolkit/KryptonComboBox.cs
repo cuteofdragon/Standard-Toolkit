@@ -5,7 +5,7 @@
 //  proprietary information of Component Factory Pty Ltd, 13 Swallows Close, 
 //  Mornington, Vic 3931, Australia and are supplied subject to license terms.
 // 
-//  Modifications by MegaKraken, Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV) 2017 - 2020. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
+//  Modifications by MegaKraken, Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV) 2017 - 2021. All rights reserved. (https://github.com/Krypton-Suite/Standard-Toolkit)
 //  Version 5.500.0.0  www.ComponentFactory.com
 // *****************************************************************************
 
@@ -138,7 +138,7 @@ namespace ComponentFactory.Krypton.Toolkit
                 // Remove from view until size for the first time by the Krypton control
                 ItemHeight = 15;
                 DropDownHeight = 200;
-                DrawMode = DrawMode.OwnerDrawVariable;
+                DrawMode = DrawMode.OwnerDrawFixed;
             }
             #endregion
 
