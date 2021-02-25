@@ -138,7 +138,7 @@ namespace ComponentFactory.Krypton.Toolkit
                 // Remove from view until size for the first time by the Krypton control
                 ItemHeight = 15;
                 DropDownHeight = 200;
-                DrawMode = DrawMode.OwnerDrawFixed;
+                DrawMode = DrawMode.OwnerDrawVariable;
             }
             #endregion
 
