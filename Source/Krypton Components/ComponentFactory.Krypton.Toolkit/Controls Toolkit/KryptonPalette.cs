@@ -24,7 +24,7 @@ using System.Windows.Forms;
 using System.Xml;
 
 namespace ComponentFactory.Krypton.Toolkit
-{   
+{
     /// <summary>
     /// Define and modify a palette for styling Krypton controls.
     /// </summary>
@@ -83,7 +83,7 @@ namespace ComponentFactory.Krypton.Toolkit
         private string _customisedKryptonPaletteFilePath;
 
         #region Property Grid Variables
-       
+
         #endregion
 
         #endregion
@@ -3317,9 +3317,9 @@ namespace ComponentFactory.Krypton.Toolkit
         [Browsable(false)]
         public KryptonColorTable ColorTable => _toolMenuStatus.InternalKCT;
 
-#endregion
+        #endregion
 
-#region Protected
+        #region Protected
         /// <summary>
         /// Gets access to the need paint delegate.
         /// </summary>
@@ -3409,9 +3409,9 @@ namespace ComponentFactory.Krypton.Toolkit
                 }
             }
         }
-#endregion
+        #endregion
 
-#region Internal
+        #region Internal
         internal bool HasCircularReference()
         {
             // Use a dictionary as a set to check for existence
@@ -3464,9 +3464,9 @@ namespace ComponentFactory.Krypton.Toolkit
             // No circular reference encountered
             return false;
         }
-#endregion
+        #endregion
 
-#region Implementation Persistence
+        #region Implementation Persistence
         private object ResetOperation(object parameter)
         {
             // Use reflection to reset the palette hierarchy
@@ -4356,9 +4356,9 @@ namespace ComponentFactory.Krypton.Toolkit
                     throw new ApplicationException("Unrecognised type '" + s + "' for import.");
             }
         }
-#endregion
+        #endregion
 
-#region Implementation GetPalette
+        #region Implementation GetPalette
         private PaletteElementColor GetTrackBar(PaletteElement element, PaletteState state)
         {
             switch (element)
@@ -6322,9 +6322,9 @@ namespace ComponentFactory.Krypton.Toolkit
                     return null;
             }
         }
-#endregion
+        #endregion
 
-#region Implementation
+        #region Implementation
         private void OnMenuToolStatusPaint(object sender, NeedLayoutEventArgs e)
         {
             // Only raise the need to paint if painting has not been suspended
@@ -6381,9 +6381,9 @@ namespace ComponentFactory.Krypton.Toolkit
             }
         }
 
-#endregion
+        #endregion
 
-#region Setters and Getters
+        #region Setters and Getters
         /// <summary>
         /// Sets the CustomisedKryptonPaletteFilePath to the value of customisedKryptonPaletteFilePathValue.
         /// </summary>
@@ -6394,7 +6394,7 @@ namespace ComponentFactory.Krypton.Toolkit
         /// Gets the CustomisedKryptonPaletteFilePath value.
         /// </summary>
         /// <returns>The value of customisedKryptonPaletteFilePathValue.</returns>
-        public string GetCustomisedKryptonPaletteFilePath() => return CustomisedKryptonPaletteFilePath;
-#endregion
+        public string GetCustomisedKryptonPaletteFilePath() => CustomisedKryptonPaletteFilePath;
+        #endregion
     }
 }
