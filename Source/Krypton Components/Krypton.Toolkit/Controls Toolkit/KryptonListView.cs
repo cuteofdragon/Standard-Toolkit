@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
     /// A Kryptonised listview (experimental).
     /// </summary>
     /// <seealso cref="System.Windows.Forms.ListView" />
-    [Description("A Kryptonised listview (experimental)."), ToolboxBitmap(typeof(ListView)), ToolboxItem(true)]
+    [Description("A Kryptonised listview (experimental)."), ToolboxBitmap(typeof(ListView)), ToolboxItem(false)]
     public class KryptonListView : ListView
     {
         #region Designer Code
