@@ -6,16 +6,9 @@
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
-
-using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -24,8 +17,8 @@ namespace Krypton.Toolkit
         #region ... DrawMethods ...
         public static void DrawLinearGradientTwoParts(Graphics g, Rectangle rect, Color LightColor, Color MiddleColor1, Color MiddleColor2, Color DarkColor, float Angle)
         {
-            Rectangle upbounds = new();
-            Rectangle downbounds = new();
+            Rectangle upbounds = new Rectangle();
+            Rectangle downbounds = new Rectangle();
             upbounds = rect;
             downbounds = rect;
 
@@ -39,8 +32,8 @@ namespace Krypton.Toolkit
             downbounds.X = rect.X + 0;
             downbounds.Y = rect.Y + upbounds.Height;
 
-            LinearGradientBrush background1 = new(upbounds, LightColor, MiddleColor1, LinearGradientMode.Vertical);
-            LinearGradientBrush background2 = new(downbounds, MiddleColor2, DarkColor, LinearGradientMode.Vertical);
+            LinearGradientBrush background1 = new LinearGradientBrush(upbounds, LightColor, MiddleColor1, LinearGradientMode.Vertical);
+            LinearGradientBrush background2 = new LinearGradientBrush(downbounds, MiddleColor2, DarkColor, LinearGradientMode.Vertical);
 
             g.FillRectangle(background1, upbounds);
             g.FillRectangle(background2, downbounds);
@@ -48,9 +41,9 @@ namespace Krypton.Toolkit
 
         public static void DrawGradient(Graphics g, Rectangle rect, Color DarkColor, Color LightColor, float Angle, bool EnableBorder, Color BorderColor, float BorderSize)
         {
-            using (LinearGradientBrush lb = new(rect, LightColor, DarkColor, Angle))
+            using (LinearGradientBrush lb = new LinearGradientBrush(rect, LightColor, DarkColor, Angle))
             {
-                Blend blend1 = new(4);
+                Blend blend1 = new Blend(4);
                 blend1.Positions[0] = 0f;
                 blend1.Factors[0] = 0.9f;
                 blend1.Positions[1] = 0.4f;
@@ -69,18 +62,18 @@ namespace Krypton.Toolkit
         public static void DrawStatusBlend(Graphics g, Rectangle rect, Color LightColor, Color DarkColor, float Angle)
         {
             // One time creation of the blend for the status strip gradient brush
-            Blend _statusStripBlend = new();
+            Blend _statusStripBlend = new Blend();
             _statusStripBlend.Positions = new float[] { 0.0f, 0.25f, 0.25f, 0.57f, 0.86f, 1.0f };
             _statusStripBlend.Factors = new float[] { 0.1f, 0.6f, 1.0f, 0.4f, 0.0f, 0.95f };
 
 
             // We do not paint the top two pixel lines, so are drawn by the status strip border render method
-            RectangleF backRect = new(0, 1.5f, rect.Width, rect.Height - 2);
+            RectangleF backRect = new RectangleF(0, 1.5f, rect.Width, rect.Height - 2);
 
             // Cannot paint a zero sized area
             if ((backRect.Width > 0) && (backRect.Height > 0))
             {
-                using (LinearGradientBrush backBrush = new(backRect,
+                using (LinearGradientBrush backBrush = new LinearGradientBrush(backRect,
                                                                                LightColor,
                                                                                DarkColor,
                                                                                90f))
@@ -98,8 +91,8 @@ namespace Krypton.Toolkit
             Color bottomTopColor = ColorFromAhsb(255, baseHue, 0.7458f, 0.2f);
             Color bottomBottomColor = ColorFromAhsb(255, baseHue, 0.6f, 0.4042f);
 
-            Rectangle topRect = new(0, 0, rect.Width, rect.Height / 2);
-            Rectangle bottomRect = new(0, topRect.Height, rect.Width, rect.Height - topRect.Height - 1);
+            Rectangle topRect = new Rectangle(0, 0, rect.Width, rect.Height / 2);
+            Rectangle bottomRect = new Rectangle(0, topRect.Height, rect.Width, rect.Height - topRect.Height - 1);
 
             using (Brush topBrush = new LinearGradientBrush(topRect, topTopColor, topBottomColor, Angle))
             {
@@ -133,17 +126,17 @@ namespace Krypton.Toolkit
 
             // Draw a single bar.
             #region BarItself
-            RectangleF er = new(rect.Left, rect.Top - rect.Height / 2, rect.Width * 2, rect.Height * 2);
-            GraphicsPath rctPath = new();
+            RectangleF er = new RectangleF(rect.Left, rect.Top - rect.Height / 2, rect.Width * 2, rect.Height * 2);
+            GraphicsPath rctPath = new GraphicsPath();
             rctPath.AddEllipse(er);
 
-            PathGradientBrush pgr = new(rctPath);
+            PathGradientBrush pgr = new PathGradientBrush(rctPath);
             pgr.CenterPoint = new PointF(rect.Right, rect.Top + rect.Height / 2);
             pgr.CenterColor = ColorBacklight;
             pgr.SurroundColors = new Color[] { ColorBacklightEnd };
 
-            RectangleF rectGlow = new(rect.Left, rect.Top, rect.Width / 2, rect.Height);
-            LinearGradientBrush brGlow = new(
+            RectangleF rectGlow = new RectangleF(rect.Left, rect.Top, rect.Width / 2, rect.Height);
+            LinearGradientBrush brGlow = new LinearGradientBrush(
                 new PointF(rectGlow.Right + 1, rectGlow.Top), new PointF(rectGlow.Left - 1, rectGlow.Top),
                 ColorGlowStart, ColorGlowEnd);
 
@@ -178,17 +171,17 @@ namespace Krypton.Toolkit
 
             // Draw a single colummn.
             #region BarItself
-            RectangleF er = new(rect.Left - rect.Width / 2, rect.Top - 10, rect.Width * 2F, rect.Height * 1.5F + 10);
-            GraphicsPath rctPath = new();
+            RectangleF er = new RectangleF(rect.Left - rect.Width / 2, rect.Top - 10, rect.Width * 2F, rect.Height * 1.5F + 10);
+            GraphicsPath rctPath = new GraphicsPath();
             rctPath.AddEllipse(er);
 
-            PathGradientBrush pgr = new(rctPath);
+            PathGradientBrush pgr = new PathGradientBrush(rctPath);
             pgr.CenterPoint = new PointF(rect.Left + rect.Width / 2, rect.Bottom);
             pgr.CenterColor = ColorBacklight;
             pgr.SurroundColors = new Color[] { ColorBacklightEnd };
 
-            RectangleF rectGlow = new(rect.Left, rect.Top, rect.Width, rect.Height / 2);
-            LinearGradientBrush brGlow = new(new PointF(rectGlow.Right, rectGlow.Bottom + 1),
+            RectangleF rectGlow = new RectangleF(rect.Left, rect.Top, rect.Width, rect.Height / 2);
+            LinearGradientBrush brGlow = new LinearGradientBrush(new PointF(rectGlow.Right, rectGlow.Bottom + 1),
                 new PointF(rectGlow.Right, rectGlow.Top - 1),
                 ColorGlowStart, ColorGlowEnd);
 
@@ -204,7 +197,7 @@ namespace Krypton.Toolkit
         {
             //This is the static function that generates the reflection...
             int height = img.Height + 100; //Added height from the original height of the image.
-            Bitmap bmp = new(img.Width, height, System.Drawing.Imaging.PixelFormat.Format64bppPArgb); //A new bitmap.
+            Bitmap bmp = new Bitmap(img.Width, height, System.Drawing.Imaging.PixelFormat.Format64bppPArgb); //A new bitmap.
             Brush brsh = new LinearGradientBrush(new Rectangle(0, 0, img.Width + 10, height), Color.Transparent, toBG, LinearGradientMode.Vertical);//The Brush that generates the fading effect to a specific color of your background.
             bmp.SetResolution(img.HorizontalResolution, img.VerticalResolution); //Sets the new bitmap's resolution.
             using (Graphics grfx = Graphics.FromImage(bmp)) //A graphics to be generated from an image (here, the new Bitmap we've created (bmp)).
@@ -214,7 +207,7 @@ namespace Krypton.Toolkit
                 Bitmap bm1 = (Bitmap)img; //Generates a bitmap again from the original image (img).
                 bm1.RotateFlip(RotateFlipType.Rotate180FlipX); //Flips and rotates the image (bm1).
                 grfx.DrawImage(bm1, 0, img.Height); //Draws (bm1) below (bm) so it serves as the reflection image.
-                Rectangle rt = new(0, img.Height, img.Width, 100); //A new rectangle to paint our gradient effect.
+                Rectangle rt = new Rectangle(0, img.Height, img.Width, 100); //A new rectangle to paint our gradient effect.
                 grfx.FillRectangle(brsh, rt); //Brushes the gradient on (rt).
             }
             return bmp; //Returns the (bmp) with the generated image.
@@ -450,14 +443,14 @@ namespace Krypton.Toolkit
             }
 
             //fill the light part (top)
-            using (LinearGradientBrush b = new(rect, LightColor, MiddleColor, Angle))
+            using (LinearGradientBrush b = new LinearGradientBrush(rect, LightColor, MiddleColor, Angle))
             {
                 //DrawGradientPolygon(g, pt, rect,  MiddleColor,LightColor);
                 g.FillPolygon(b, pt, FillMode.Winding);
             }
 
             //White Effect
-            using (LinearGradientBrush b = new(rect, Color.FromArgb(180, Color.White), Color.FromArgb(20, Color.White), Angle))
+            using (LinearGradientBrush b = new LinearGradientBrush(rect, Color.FromArgb(180, Color.White), Color.FromArgb(20, Color.White), Angle))
             {
                 //DrawGradientPolygon(g, pt, rect,  MiddleColor,LightColor);
                 g.FillPolygon(b, pt, FillMode.Winding);
@@ -465,7 +458,7 @@ namespace Krypton.Toolkit
 
 
             //Fill the rest
-            using (LinearGradientBrush b = new(rect, MiddleColor, DarkColor, Angle))
+            using (LinearGradientBrush b = new LinearGradientBrush(rect, MiddleColor, DarkColor, Angle))
             {
 
                 g.FillPolygon(b, NewUpPt);
@@ -474,7 +467,7 @@ namespace Krypton.Toolkit
 
         public static GraphicsPath GetTabRoundedPath(Rectangle bounds, int radius, TabAlignment orientation, bool IsForBorder, ListViewDrawingMethods.TabHeaderStatus Status, TabAppearance Appearance, int allowSelectedTabHighSize)
         {
-            GraphicsPath graphicsPath = new();
+            GraphicsPath graphicsPath = new GraphicsPath();
             switch (orientation)
             {
                 case TabAlignment.Top:
@@ -726,7 +719,7 @@ namespace Krypton.Toolkit
             //Split the area, new half height
             int HalfSize = (int)rect.Height / 2 - 2;
 
-            Rectangle Newrect = new(rect.X, rect.Y + HalfSize, rect.Width, rect.Height - HalfSize);
+            Rectangle Newrect = new Rectangle(rect.X, rect.Y + HalfSize, rect.Width, rect.Height - HalfSize);
 
             //check on all whites
             if ((MiddleColor == Color.White) && (DarkColor == Color.White))
@@ -736,7 +729,7 @@ namespace Krypton.Toolkit
             }
 
             //fill the light part (top)
-            using (LinearGradientBrush b = new(rect, LightColor, MiddleColor, Angle))
+            using (LinearGradientBrush b = new LinearGradientBrush(rect, LightColor, MiddleColor, Angle))
             {
                 //DrawGradient(g, rect, MiddleColor, LightColor);
                 g.FillRectangle(b, rect);
@@ -744,7 +737,7 @@ namespace Krypton.Toolkit
 
 
             //Fill the rest
-            using (LinearGradientBrush b = new(Newrect, MiddleColor, DarkColor, Angle))
+            using (LinearGradientBrush b = new LinearGradientBrush(Newrect, MiddleColor, DarkColor, Angle))
             {
                 g.FillRectangle(b, Newrect);
             }
@@ -766,7 +759,7 @@ namespace Krypton.Toolkit
         #region ... ColorManipulation ...
         public static Color GetDarkerColor(Color clr)
         {
-            Color c = new();
+            Color c = new Color();
             int r, g, b;
 
             r = clr.R - 18;
@@ -783,7 +776,7 @@ namespace Krypton.Toolkit
 
         public static Color GetDarkerColor(Color clr, int amount)
         {
-            Color c = new();
+            Color c = new Color();
             int r, g, b;
 
             r = clr.R - amount;
@@ -800,7 +793,7 @@ namespace Krypton.Toolkit
 
         public static Color GetLighterColor(Color clr, int amount)
         {
-            Color c = new();
+            Color c = new Color();
             int r, g, b;
 
             r = clr.R + amount;
@@ -817,7 +810,7 @@ namespace Krypton.Toolkit
 
         public static Color GetLighterColor(Color clr)
         {
-            Color c = new();
+            Color c = new Color();
             int r, g, b;
 
             r = clr.R + 18;
@@ -834,9 +827,9 @@ namespace Krypton.Toolkit
 
         public static Color GetModifiedColor(Color clr, int britness, int saturation, int hue)
         {
-            Color c = new();
+            Color c = new Color();
 
-            ColourHandler.RGB rgb = new(clr.R, clr.G, clr.B);
+            ColourHandler.RGB rgb = new ColourHandler.RGB(clr.R, clr.G, clr.B);
             ColourHandler.HSV hsv = ColourHandler.RGBtoHSV(rgb);
 
             hsv.value += britness;
@@ -883,7 +876,7 @@ namespace Krypton.Toolkit
 
         public static Brush GetBrush(Rectangle rect, Color ColorBegin, Color ColorEnd, PaletteColorStyle ColorStyle, float Angle, VisualOrientation orientation, bool PreserveColors)
         {
-            Blend blend1 = new(4);
+            Blend blend1 = new Blend(4);
             Blend blend2;
             Blend blend3;
             Blend blend4;
@@ -897,7 +890,7 @@ namespace Krypton.Toolkit
             Blend blend12;
 
             // One time creation of the blend for the status strip gradient brush
-            Blend blend13 = new();
+            Blend blend13 = new Blend();
             blend13.Positions = new float[] { 0.0f, 0.25f, 0.25f, 0.57f, 0.86f, 1.0f };
             blend13.Factors = new float[] { 0.1f, 0.6f, 1.0f, 0.4f, 0.0f, 0.95f };
 
@@ -997,7 +990,7 @@ namespace Krypton.Toolkit
             }
 
             //Others
-            LinearGradientBrush brush = new(rect, ColorBegin, ColorEnd, Angle);
+            LinearGradientBrush brush = new LinearGradientBrush(rect, ColorBegin, ColorEnd, Angle);
             switch (ColorStyle)
             {
                 case PaletteColorStyle.Status:
@@ -1194,7 +1187,7 @@ namespace Krypton.Toolkit
 
         public static GraphicsPath CreateRectGraphicsPath(Rectangle rect)
         {
-            GraphicsPath path = new();
+            GraphicsPath path = new GraphicsPath();
             path.AddRectangle(rect);
             return path;
         }
@@ -1205,7 +1198,7 @@ namespace Krypton.Toolkit
             int y = bounds.Y;
             int width = bounds.Width;
             int height = bounds.Height;
-            GraphicsPath graphicsPath = new();
+            GraphicsPath graphicsPath = new GraphicsPath();
             if ((Appearance == TabAppearance.Normal) && ((Status == ListViewDrawingMethods.TabHeaderStatus.Selected) || (Status == ListViewDrawingMethods.TabHeaderStatus.HotSelected)))
             {
                 //graphicsPath.AddLine(x, y + height, x, y - radius);                     //Left Line
@@ -1237,7 +1230,7 @@ namespace Krypton.Toolkit
             int y = bounds.Y;
             int width = bounds.Width;
             int height = bounds.Height;
-            GraphicsPath graphicsPath = new();
+            GraphicsPath graphicsPath = new GraphicsPath();
 
             if ((Appearance == TabAppearance.Normal) && ((Status == ListViewDrawingMethods.TabHeaderStatus.Selected) || (Status == ListViewDrawingMethods.TabHeaderStatus.HotSelected)))
             {
@@ -1263,7 +1256,7 @@ namespace Krypton.Toolkit
         public static GraphicsPath GetRoundedLeftPath(Rectangle bounds, int radius)
         {
             //to implement
-            GraphicsPath path = new();
+            GraphicsPath path = new GraphicsPath();
             path.AddRectangle(bounds);
             return path;
         }
@@ -1271,7 +1264,7 @@ namespace Krypton.Toolkit
         public static GraphicsPath GetRoundedRightPath(Rectangle bounds, int radius)
         {
             //to implement
-            GraphicsPath path = new();
+            GraphicsPath path = new GraphicsPath();
             path.AddRectangle(bounds);
             return path;
         }
@@ -1279,7 +1272,7 @@ namespace Krypton.Toolkit
         public static GraphicsPath GetRoundedSquarePath(Rectangle bounds, int radius)
         {
             int x = bounds.X, y = bounds.Y, w = bounds.Width, h = bounds.Height;
-            GraphicsPath path = new();
+            GraphicsPath path = new GraphicsPath();
             path.AddArc(x, y, radius, radius, 180, 90);				//Upper left corner
             path.AddArc(x + w - radius, y, radius, radius, 270, 90);			//Upper right corner
             path.AddArc(x + w - radius, y + h - radius, radius, radius, 0, 90);		//Lower right corner

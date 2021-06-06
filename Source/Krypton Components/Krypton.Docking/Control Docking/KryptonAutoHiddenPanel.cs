@@ -12,12 +12,6 @@
  */
 #endregion
 
-using System;
-using System.Drawing;
-using System.ComponentModel;
-using System.Windows.Forms;
-using Krypton.Toolkit;
-
 namespace Krypton.Docking
 {
     /// <summary>
@@ -55,6 +49,8 @@ namespace Krypton.Docking
                     break;
                 case DockingEdge.Bottom:
                     Padding = new Padding(0, EXTRA_PADDING, 0, 0);
+                    break;
+                default:
                     break;
             }
         }

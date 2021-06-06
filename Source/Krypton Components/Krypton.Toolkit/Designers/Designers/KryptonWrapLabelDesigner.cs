@@ -12,8 +12,6 @@
  */
 #endregion
 
-using System.ComponentModel.Design;
-using System.Windows.Forms.Design;
 
 namespace Krypton.Toolkit
 {
@@ -44,7 +42,7 @@ namespace Krypton.Toolkit
                 DesignerActionListCollection actionLists = new()
                 {
 
-                    // Add the wrpa label specific list
+                    // Add the wrap label specific list
                     new KryptonWrapLabelActionList(this)
                 };
 

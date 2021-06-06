@@ -6,20 +6,10 @@
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2021. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Text;
-using System.Security.Permissions;
-using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
@@ -38,7 +28,7 @@ namespace Krypton.Toolkit
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new(typeof(KryptonListView));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KryptonListView));
             //this.ilCheckBoxes = new System.Windows.Forms.ImageList(this.components);
             this.ilHeight = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
@@ -381,7 +371,7 @@ namespace Krypton.Toolkit
 
                 if (_palette == null)
                 {
-                    EventArgs Ev = new();
+                    EventArgs Ev = new EventArgs();
                     OnGlobalPaletteChanged(this, Ev);
                 }
 
@@ -676,7 +666,7 @@ namespace Krypton.Toolkit
 
             // Create a rectangle inset, this is where we will draw the node
             Rectangle innerRect = rect;
-            Rectangle innerContent = new(innerRect.X + 1, innerRect.Y + 1, innerRect.Width - 2, innerRect.Height - 2);
+            Rectangle innerContent = new Rectangle(innerRect.X + 1, innerRect.Y + 1, innerRect.Width - 2, innerRect.Height - 2);
 
             // Set the style of control we want to draw
             _paletteBack.Style = PaletteBackStyle.ButtonStandalone;
@@ -690,7 +680,7 @@ namespace Krypton.Toolkit
             if (this.Enabled == false) buttonState = PaletteState.Disabled;
 
             // Create the rendering context that is passed into all renderer calls
-            using (RenderContext renderContext = new(this, g, rect, renderer))
+            using (RenderContext renderContext = new RenderContext(this, g, rect, renderer))
             {
                 using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, innerRect, _paletteBorder, VisualOrientation.Top, buttonState))
                 {
@@ -741,7 +731,7 @@ namespace Krypton.Toolkit
 
             // Create a rectangle inset, this is where we will draw the node
             Rectangle innerRect = rect;
-            Rectangle innerContent = new(innerRect.X + 1, innerRect.Y + 1, innerRect.Width - 2, innerRect.Height - 2);
+            Rectangle innerContent = new Rectangle(innerRect.X + 1, innerRect.Y + 1, innerRect.Width - 2, innerRect.Height - 2);
 
             // Set the style of control we want to draw
             _paletteBack.Style = PaletteBackStyle.ButtonStandalone;
@@ -756,7 +746,7 @@ namespace Krypton.Toolkit
 
 
             // Create the rendering context that is passed into all renderer calls
-            using (RenderContext renderContext = new(this, g, rect, renderer))
+            using (RenderContext renderContext = new RenderContext(this, g, rect, renderer))
             {
                 using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext, innerRect, _paletteBorder, VisualOrientation.Top, buttonState))
                 {
@@ -805,7 +795,7 @@ namespace Krypton.Toolkit
                 }
             }
             //Fill Gradient
-            using (LinearGradientBrush brush = new(rect, gradStartColor, gradMiddleColor, LinearGradientMode.Vertical))
+            using (LinearGradientBrush brush = new LinearGradientBrush(rect, gradStartColor, gradMiddleColor, LinearGradientMode.Vertical))
             {
                 if (!_enableHeaderGlow)
                     g.FillRectangle(brush, rect);
@@ -870,7 +860,7 @@ namespace Krypton.Toolkit
 
                     Graphics g = e.Graphics;
 
-                    Point mouse = new();
+                    Point mouse = new Point();
 
                     mouse = PointToClient(MousePosition);
 
@@ -880,7 +870,7 @@ namespace Krypton.Toolkit
                     {
                         Invalidate();
 
-                        Rectangle mouseRectangle = new();
+                        Rectangle mouseRectangle = new Rectangle();
 
                         mouseRectangle = e.Bounds;
 
@@ -927,7 +917,7 @@ namespace Krypton.Toolkit
 
                     Font textFont = GetForeTextFont(GetPaletteState(ref e, bHot));
 
-                    StringFormat stringFormat = new();
+                    StringFormat stringFormat = new StringFormat();
 
                     stringFormat.FormatFlags = StringFormatFlags.NoWrap;
 
@@ -1007,7 +997,7 @@ namespace Krypton.Toolkit
         //create Graphics Path
         private GraphicsPath CreateRectGraphicsPath(Rectangle rect)
         {
-            GraphicsPath path = new();
+            GraphicsPath path = new GraphicsPath();
             path.AddRectangle(rect);
             return path;
         }
@@ -1025,14 +1015,14 @@ namespace Krypton.Toolkit
                 g.DrawLine(Pens.Red, X1, Y, X2 - 1, Y);
 
                 Point[] leftTriangle = new Point[3] {
-                            new(X1,      Y-4),
-                            new(X1 + 7,  Y),
-                            new(X1,      Y+4)
+                            new Point(X1,      Y-4),
+                            new Point(X1 + 7,  Y),
+                            new Point(X1,      Y+4)
                         };
                 Point[] rightTriangle = new Point[3] {
-                            new(X2,     Y-4),
-                            new(X2 - 8, Y),
-                            new(X2,     Y+4)
+                            new Point(X2,     Y-4),
+                            new Point(X2 - 8, Y),
+                            new Point(X2,     Y+4)
                         };
                 g.FillPolygon(Brushes.Red, leftTriangle);
                 g.FillPolygon(Brushes.Red, rightTriangle);
@@ -1236,7 +1226,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        // TODO: https://github.com/Krypton-Suite/Standard-Toolkit/issues/100 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void WndProc(ref Message m)
         {
